@@ -2,9 +2,7 @@ const params = new URLSearchParams(window.location.search);
 const encodedPayload = params.get("profile");
 const root = document.documentElement;
 
-const utilityBar = document.getElementById("utility-bar");
-const themePickerWrapper = document.getElementById("theme-picker-wrapper");
-const themePicker = document.getElementById("theme-picker");
+const themePicker = document.createElement("select");
 const mbtiBtn = document.getElementById("mbti-info-btn");
 const mbtiTooltip = document.getElementById("mbti-tooltip");
 
@@ -231,17 +229,6 @@ const storedTheme = safeStorage.get(STORAGE_KEYS.theme);
 const initialThemeId = profile.theme || storedTheme || THEMES[0].id;
 
 applyTheme(initialThemeId);
-
-if (!encodedPayload) {
-    themePickerWrapper.hidden = false;
-    utilityBar.hidden = false;
-    themePicker.addEventListener("change", event => {
-        applyTheme(event.target.value);
-    });
-} else {
-    themePickerWrapper.hidden = true;
-    utilityBar.hidden = true;
-}
 
 document.getElementById("profile-name").textContent = profile.nm || defaultProfile.nm;
 document.getElementById("profile-major").textContent = profile.mj || "전공 정보 없음";
