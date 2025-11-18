@@ -2,11 +2,9 @@ const params = new URLSearchParams(window.location.search);
 const encodedPayload = params.get("profile");
 const root = document.documentElement;
 
-const feedbackEl = document.getElementById("feedback");
 const utilityBar = document.getElementById("utility-bar");
 const themePickerWrapper = document.getElementById("theme-picker-wrapper");
 const themePicker = document.getElementById("theme-picker");
-const themePill = document.getElementById("theme-pill");
 const mbtiBtn = document.getElementById("mbti-info-btn");
 const mbtiTooltip = document.getElementById("mbti-tooltip");
 
@@ -208,7 +206,6 @@ const applyTheme = themeId => {
     root.style.setProperty("--chip-bg", theme.chipBg);
     root.style.setProperty("--chip-border", theme.chipBorder);
     root.style.setProperty("--page-color", theme.text);
-    themePill.textContent = theme.name;
     themePicker.value = theme.id;
     safeStorage.set(STORAGE_KEYS.theme, theme.id);
     return theme.id;
@@ -216,18 +213,15 @@ const applyTheme = themeId => {
 
 const parseProfile = () => {
     if (!encodedPayload) {
-        feedbackEl.textContent = "profile 파라미터가 없어 샘플 데이터를 보여줍니다. 상단에서 테마를 선택해보세요.";
         return defaultProfile;
     }
 
     try {
         const decoded = decodeURIComponent(encodedPayload);
         const parsed = JSON.parse(decoded);
-        feedbackEl.textContent = "URL 파라미터에서 데이터를 불러왔습니다.";
         return { ...defaultProfile, ...parsed };
     } catch (error) {
         console.error("Failed to parse profile", error);
-        feedbackEl.textContent = "JSON 파싱에 실패해 기본 데이터를 보여줍니다.";
         return defaultProfile;
     }
 };
